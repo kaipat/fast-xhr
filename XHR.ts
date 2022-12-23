@@ -1,6 +1,10 @@
 import axios, { CreateAxiosDefaults, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 // import qs from "qs";
 
+export type Response = AxiosResponse;
+
+export type Result<T = any> = { code: number, data: T, message: string };
+
 export class XHR<R> {
   axios: AxiosInstance;
 
@@ -15,33 +19,33 @@ export class XHR<R> {
     });
   }
 
-  withParams(params: any): XHR<R> {
+  withParams(params: any) {
     this.requestOptions.params = params;
     return this;
   }
 
-  withBody(data: any): XHR<R> {
+  withBody(data: any) {
     this.requestOptions.data = data;
     return this;
   }
 
   response<T = R>(
-    resolve?: (response: AxiosResponse<T>) => any,
+    resolve?: (response: T) => any,
     reject?: (error: any) => any,
-  ): Promise<AxiosResponse<T>> | undefined {
+  ): Promise<T> | undefined {
     if (typeof resolve === "function") {
-      this.axios.request(this.requestOptions).then(resolve).catch(reject);
+      this.axios.request<any, T>(this.requestOptions).then(resolve).catch(reject);
     } else {
       return this.axios.request(this.requestOptions);
     }
   }
 
-  get(url: string): XHR<R> {
+  get(url: string) {
     this.requestOptions = { method: "GET", url };
     return this;
   }
 
-  post(url: string): XHR<R> {
+  post(url: string) {
     this.requestOptions = { method: "POST", url };
     return this;
   }

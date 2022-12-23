@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "esnext",
+    "target": "es6",
+    "module": "es6",
     "rootDir": "./",
     "moduleResolution": "node",
     "allowJs": true,
     "checkJs": true,
     "declaration": true,
     "outDir": "dist",
-    "noEmit": true,
+    "noEmit": false,
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

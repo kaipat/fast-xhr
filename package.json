@@ -5,8 +5,10 @@
   "repository": "kaipat/fast-xhr",
   "main": "XHR.js",
   "scripts": {
-    "upload": "npm version patch && npm publish",
-    "test": "node XHR.test.js"
+    "build": "tsc",
+    "test": "tsc --module nodenext && node dist/XHR.test.js",
+    "upload": "pnpm version patch && pnpm publish",
+    "update": "pnpm run build && pnpm run upload"
   },
   "files": [
     "dist"

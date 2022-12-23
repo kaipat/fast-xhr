@@ -1,44 +1,45 @@
 "use strict";
-exports.__esModule = true;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.XHR = void 0;
-var axios_1 = require("axios");
-// import qs from "qs";
-var XHR = /** @class */ (function () {
-    function XHR(config) {
+const axios_1 = __importDefault(require("axios"));
+class XHR {
+    constructor(config) {
         this.requestOptions = {};
-        this.axios = axios_1["default"].create({
+        this.axios = axios_1.default.create({
             baseURL: config.baseURL,
             timeout: config.timeout,
             withCredentials: config.withCredentials,
-            headers: config.headers
+            headers: config.headers,
         });
     }
-    XHR.prototype.withParams = function (params) {
+    withParams(params) {
         this.requestOptions.params = params;
         return this;
-    };
-    XHR.prototype.withBody = function (data) {
+    }
+    withBody(data) {
         this.requestOptions.data = data;
         return this;
-    };
-    XHR.prototype.response = function (resolve, reject) {
+    }
+    response(resolve, reject) {
         if (typeof resolve === "function") {
-            this.axios.request(this.requestOptions).then(resolve)["catch"](reject);
+            this.axios.request(this.requestOptions).then(resolve).catch(reject);
         }
         else {
             return this.axios.request(this.requestOptions);
         }
-    };
-    XHR.prototype.get = function (url) {
-        this.requestOptions = { method: "GET", url: url };
+    }
+    get(url) {
+        this.requestOptions = { method: "GET", url };
         return this;
-    };
-    XHR.prototype.post = function (url) {
-        this.requestOptions = { method: "POST", url: url };
+    }
+    post(url) {
+        this.requestOptions = { method: "POST", url };
         return this;
-    };
-    return XHR;
-}());
+    }
+}
 exports.XHR = XHR;
 // transformRequest(data, headers) {
 //   // if ("contentType" in headers) {
