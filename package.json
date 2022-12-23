@@ -1,0 +1,31 @@
+{
+  "name": "fast-xhr",
+  "version": "0.0.30",
+  "description": "easy xhr",
+  "repository": "kaipat/fast-xhr",
+  "main": "XHR.js",
+  "scripts": {
+    "upload": "npm version patch && npm publish",
+    "test": "node XHR.test.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "axios",
+    "xhr"
+  ],
+  "author": "JiaPeng",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "eslint": "^8.30.0"
+  },
+  "dependencies": {
+    "@types/qs": "^6.9.7",
+    "axios": "^1.2.1",
+    "qs": "^6.11.0",
+    "typescript": "^4.9.4"
+  }
+}
