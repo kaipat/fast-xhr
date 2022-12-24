@@ -1,6 +1,6 @@
 {
   "name": "fast-xhr",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "easy xhr",
   "repository": "kaipat/fast-xhr",
   "main": "dist/XHR.js",
