@@ -3,7 +3,7 @@
   "version": "0.0.32",
   "description": "easy xhr",
   "repository": "kaipat/fast-xhr",
-  "main": "XHR.js",
+  "main": "dist/XHR.js",
   "scripts": {
     "build": "tsc",
     "test": "jest",
