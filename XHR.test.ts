@@ -1,4 +1,4 @@
-import { XHR, Result, Response } from "./XHR";
+import XHR, { Result, Response } from "./XHR";
 interface Images {
   total: number,
   list: { id: number, url: string, name: string }[]

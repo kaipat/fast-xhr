@@ -7,7 +7,7 @@ export type Result<T = any> = { code: number, data: T, message: string };
 
 export type RequestOptions = AxiosRequestConfig & { duration?: number }
 
-export class XHR<R> {
+export default class XHR<R> {
   axios: AxiosInstance;
 
   requestOptions: RequestOptions = {};
