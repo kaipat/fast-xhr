@@ -1,58 +1,68 @@
 import { XHR, Result, Response } from "./XHR";
+interface Images {
+  total: number,
+  list: { id: number, url: string, name: string }[]
+}
 
-interface Images { total: number, list: { id: number, url: string, name: string }[] }
+type ImagesResponse = Response<Result<Images>>
 
-const xhr = new XHR<Response>({
-  baseURL: "http://localhost:6060",
-});
+let xhr: XHR<Response>;
 
-xhr.axios.interceptors.response.use(function(response) {
-  const { data } = response;
-  return response;
-}, function(error) {
-  return error;
-});
-
-xhr.post("/api/image/list")
-  .withBody({
-    pageIndex: 1,
-    pageSize: 10,
-  })
-  .setContentType("application/x-www-form-urlencoded")
-  .setContentType("application/json")
-  .setHeaders({
-    username: "kaipat",
-  })
-  .response<Response<Result<Images>>>((res) => {
-    console.log(res.data.data.total);
-  }, (error) => {
-    console.log(error.message);
+beforeAll(() => {
+  xhr = new XHR<Response>({
+    baseURL: "http://localhost:6060",
   });
-
-xhr.request<Response<Result<Images>>>({
-  method: "POST",
-  url: "/api/image/list",
-  data: {
-    pageIndex: 1,
-    pageSize: 10,
-  },
-}).then(res => {
-  console.log(res.data.data.total);
+  xhr.axios.interceptors.response.use(function(response) {
+    // const { data } = response;
+    return response;
+  }, function(error) {
+    throw error;
+  });
 });
 
-let count = 10;
-xhr.post("/api/image/list").withBody({
-  pageIndex: 1,
-  pageSize: 10,
-}).setInterval(3000).response<Response<Result<Images>>>((res) => {
-  console.log(`[${count}]-${res.data.data.total}`);
-  count -= 1;
-  return count > 0;
-}, (error) => {
-  console.log(`[${count}]-${error.message}`);
-  count -= 1;
-  return count > 0;
+test("should return list correctly", () => {
+  xhr.post("/api/image/list")
+    .withBody({
+      pageIndex: 1,
+      pageSize: 10,
+    })
+    .setContentType("application/json")
+    .response<ImagesResponse>((res) => {
+      expect(res.data.code).toEqual(0);
+    });
 });
+
+test("should contain correct contentType", () => {
+  const contentType = "application/x-www-form-urlencoded";
+  xhr.post("/api/image/list")
+    .withBody({
+      pageIndex: 1,
+      pageSize: 10,
+    })
+    .setContentType(contentType)
+    .response<ImagesResponse>((res) => {
+      expect(res.request._header).toContain(contentType);
+    }, (error) => {
+      expect(error.request._header).toContain(contentType);
+    });
+});
+
+test("should contain correct headers item", () => {
+  xhr.post("/api/image/list")
+    .withBody({
+      pageIndex: 1,
+      pageSize: 10,
+    })
+    .setHeaders({
+      app: "fast-xhr",
+    })
+    .response<ImagesResponse>((res) => {
+      expect(res.request._header).toContain("app: fast-xhr");
+    }, (error) => {
+      expect(error.request._header).toContain("app: fast-xhr");
+    });
+});
+
 
 
 

@@ -54,7 +54,7 @@ export class XHR<R> {
     resolve?: (response: T) => any,
     reject?: (error: any) => any,
     requestOptions?: RequestOptions,
-  ): Promise<T> | undefined {
+  ): Promise<T> | void {
     const options = requestOptions || this.requestOptions;
     if (options.duration && options.duration > 0) {
       const resolveFun = resolve || function() {
