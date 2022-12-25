@@ -5,7 +5,11 @@ export type Response<T = any> = AxiosResponse<T>;
 
 export type Result<T = any> = { code: number, data: T, message: string };
 
-export type RequestOptions = AxiosRequestConfig & { duration?: number }
+export type RequestOptions = AxiosRequestConfig & { duration?: number };
+
+export type ResponseResolve<T> = (response: T) => any;
+
+export type ResponseReject = (error: any) => any;
 
 export default class XHR<R> {
   axios: AxiosInstance;
@@ -53,13 +57,13 @@ export default class XHR<R> {
   response<
     T = R
   >(
-    resolve?: (response: T) => any,
-    reject?: (error: any) => any,
+    resolve?: ResponseResolve<T>,
+    reject?: ResponseReject,
     requestOptions?: RequestOptions,
   ): Promise<T> {
     const options = requestOptions || this.requestOptions;
     if (options.duration && options.duration > 0) {
-      const _resolve: (response: T) => any = (response) => {
+      const _resolve: ResponseResolve<T> = (response) => {
         if (typeof resolve === "function") {
           resolve(response) &&
           setTimeout(() => this.response(resolve, reject, options), options.duration);
@@ -67,10 +71,11 @@ export default class XHR<R> {
           setTimeout(() => this.response(resolve, reject, options), options.duration);
         }
       };
-      const _reject: (error: any) => any = (error) => {
+      const _reject: ResponseReject = (error) => {
         if (typeof reject === "function") {
           reject(error) &&
           setTimeout(() => this.response(resolve, reject, options), options.duration);
+
         } else {
           setTimeout(() => this.response(resolve, reject, options), options.duration);
         }
