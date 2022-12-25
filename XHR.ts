@@ -50,34 +50,38 @@ export default class XHR<R> {
     return this;
   }
 
-  response<T = R>(
+  response<
+    T = R
+  >(
     resolve?: (response: T) => any,
     reject?: (error: any) => any,
     requestOptions?: RequestOptions,
-  ): Promise<T> | void {
+  ): Promise<T> {
     const options = requestOptions || this.requestOptions;
     if (options.duration && options.duration > 0) {
-      const resolveFun = resolve || function() {
-        return true;
-      };
-      const rejectFun = reject || function() {
-        return true;
-      };
-      this.axios.request<any, T>(options).then((response) => {
-        if (resolveFun(response)) {
-          setTimeout(() => this.response(resolveFun, rejectFun, options), options.duration);
+      const _resolve: (response: T) => any = (response) => {
+        if (typeof resolve === "function") {
+          resolve(response) &&
+          setTimeout(() => this.response(resolve, reject, options), options.duration);
+        } else {
+          setTimeout(() => this.response(resolve, reject, options), options.duration);
         }
-      }).catch((error) => {
-        if (rejectFun(error)) {
-          setTimeout(() => this.response(resolveFun, rejectFun, options), options.duration);
+      };
+      const _reject: (error: any) => any = (error) => {
+        if (typeof reject === "function") {
+          reject(error) &&
+          setTimeout(() => this.response(resolve, reject, options), options.duration);
+        } else {
+          setTimeout(() => this.response(resolve, reject, options), options.duration);
         }
-      });
+      };
+      return this.axios.request<any, T>(options).then(_resolve).catch(_reject);
     } else if (typeof resolve === "function" && typeof reject === "function") {
-      this.axios.request<any, T>(options).then(resolve).catch(reject);
+      return this.axios.request<any, T>(options).then(resolve).catch(reject);
     } else if (typeof resolve === "function") {
-      this.axios.request<any, T>(options).then(resolve);
+      return this.axios.request<any, T>(options).then(resolve);
     } else {
-      return this.request<T>(options);
+      return this.axios.request<any, T>(options);
     }
   }
 

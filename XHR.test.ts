@@ -18,6 +18,19 @@ beforeAll(() => {
   }, function(error) {
     throw error;
   });
+  // xhr.post("/api/image/list")
+  //   .withBody({
+  //     pageIndex: 1,
+  //     pageSize: 10,
+  //   })
+  //   .setInterval(1000)
+  //   .response<ImagesResponse>((res) => {
+  //     console.log(res.data.data.total);
+  //     return true;
+  //   }, (error) => {
+  //     console.log(error.message);
+  //     return true;
+  //   });
 });
 
 test("should return list correctly", () => {

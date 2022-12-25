@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "jest",
     "upload": "pnpm version patch && pnpm publish",
-    "update": "pnpm run build && pnpm run upload"
+    "upgrade": "pnpm run build && pnpm run upload"
   },
   "files": [
     "dist"
