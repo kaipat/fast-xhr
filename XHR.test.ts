@@ -1,4 +1,5 @@
 import XHR, { Result, Response } from "./XHR";
+
 interface Images {
   total: number,
   list: { id: number, url: string, name: string }[]
@@ -10,7 +11,7 @@ let xhr: XHR<Response>;
 
 beforeAll(() => {
   xhr = new XHR<Response>({
-    baseURL: "http://localhost:6060",
+    baseURL: "http://localhost:6060"
   });
   xhr.axios.interceptors.response.use(function(response) {
     // const { data } = response;
@@ -37,7 +38,7 @@ test("should return list correctly", () => {
   xhr.post("/api/image/list")
     .withBody({
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 10
     })
     .setContentType("application/json")
     .response<ImagesResponse>((res) => {
@@ -50,7 +51,7 @@ test("should contain correct contentType", () => {
   xhr.post("/api/image/list")
     .withBody({
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 10
     })
     .setContentType(contentType)
     .response<ImagesResponse>((res) => {
@@ -64,10 +65,10 @@ test("should contain correct headers item", () => {
   xhr.post("/api/image/list")
     .withBody({
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 10
     })
     .setHeaders({
-      app: "fast-xhr",
+      app: "fast-xhr"
     })
     .response<ImagesResponse>((res) => {
       expect(res.request._header).toContain("app: fast-xhr");

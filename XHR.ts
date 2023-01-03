@@ -21,7 +21,7 @@ export default class XHR<R> {
       baseURL: config.baseURL,
       timeout: config.timeout,
       withCredentials: config.withCredentials,
-      headers: config.headers,
+      headers: config.headers
     });
   }
 
@@ -44,7 +44,7 @@ export default class XHR<R> {
   setContentType(contentType: string) {
     this.requestOptions.headers =
       Object.assign({}, this.requestOptions.headers, {
-        "Content-Type": contentType,
+        "Content-Type": contentType
       });
     return this;
   }
@@ -75,7 +75,6 @@ export default class XHR<R> {
         if (typeof reject === "function") {
           reject(error) &&
           setTimeout(() => this.response(resolve, reject, options), options.duration);
-
         } else {
           setTimeout(() => this.response(resolve, reject, options), options.duration);
         }
@@ -115,8 +114,6 @@ export default class XHR<R> {
     return this;
   }
 }
-
-
 
 
 
